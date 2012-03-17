@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+
+<dict>
+	<key>CFBundleGetInfoString</key>
+	<string>maven10 1.0.2</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.macports.mpkg.maven10</string>
+	<key>CFBundleName</key>
+	<string>maven10</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.2</string>
+	<key>IFMajorVersion</key>
+	<integer>0</integer>
+	<key>IFMinorVersion</key>
+	<integer>0</integer>
+	<key>IFPkgFlagComponentDirectory</key>
+	<string>./Contents/Packages</string>
+	<key>IFPkgFlagPackageList</key>
+	<array>
+		<dict>
+			<key>IFPkgFlagPackageLocation</key>
+			<string>maven10-1.0.2.pkg</string>
+			<key>IFPkgFlagPackageSelection</key>
+			<string>selected</string>
+		</dict>
+		</array>
+	<key>IFPkgFormatVersion</key>
+	<real>0.10000000149011612</real>
+</dict>
+</plist>
