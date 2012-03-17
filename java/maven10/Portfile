@@ -1,0 +1,75 @@
+# $Id: Portfile,v 1.1 2012/03/17 09:29:48 kakikubo Exp kakikubo $
+PortSystem          1.0
+name                maven10
+categories          java devel
+version             1.0.2
+maintainers         unknown
+categories          java devel
+platforms           darwin
+
+description         A java-based build and project management environment.
+long_description    Maven is a Java project management and project comprehension \
+                    tool. 
+
+homepage            http://maven.apache.org/
+
+master_sites        http://archive.apache.org/dist/maven/binaries/
+distname            maven-${version}
+
+patch_sites        http://jira.codehaus.org/secure/attachment/13551
+set patchfile      patch-maven
+patchfiles         ${patchfile}
+patch.pre_args -p0
+
+checksums           patch-maven \
+                    md5     e4ff3c66380d263af0b28523a61e753e \
+                    maven-1.0.2.tar.bz2 \
+                    rmd160  022a5d9fe7a3f7fe160ee7fa1862467de384ef25 \
+
+
+depends_build       bin:java:kaffe \
+                    bin:ant:apache-ant
+use_bzip2           yes
+use_configure       no
+
+# Source builds of maven are not possible. So, the default build is a binary
+# install of the jars.
+build.cmd           true
+
+destroot {
+    set mavendir ${destroot}${prefix}/share/java/${name}
+    # Create the target java directory exists
+    xinstall -m 755 -d ${mavendir}
+
+    # Copy over the needed elements of our directory tree
+    file copy \
+        ${worksrcpath}/bin \
+        ${worksrcpath}/lib \
+        ${worksrcpath}/plugins \
+        ${worksrcpath}/maven-navigation-1.0.xsd \
+        ${worksrcpath}/maven-project.xsd \
+        ${mavendir}
+
+    # Remove extraneous bat files
+    foreach f [glob -directory ${mavendir}/bin *.bat] {
+        file delete $f
+    }
+
+    # Fix permissions on shell scripts
+    foreach f { maven install_repo.sh } {
+        if [file exists ${mavendir}/bin/$f] {
+            file attributes ${mavendir}/bin/$f -permissions +x
+        }
+    }
+
+    # Reduce the permissions on the distribution files.
+    foreach f [glob -directory ${mavendir}/lib *.jar] {
+        file attributes $f -permissions 0644
+    }
+
+    # Symlink maven into the bin directory
+    system "cd ${destroot}${prefix}/bin && ln -s ../share/java/${name}/bin/maven maven"
+}
+
+livecheck.type  regex
+livecheck.regex {Get Maven (\d+(?:\.\d+)*)}
